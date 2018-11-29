@@ -1,9 +1,6 @@
 # 日志打印
 
-基于log.Println()上的二次开发，显示内容更丰富。
-
-注意：调用系统log.SetFlags()会影响logger日志输出，logger需要系统log的flag清零
-
+基于fmt.Println()上的二次开发，显示内容更丰富。
 
 ## 使用说明
 

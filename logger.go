@@ -114,7 +114,8 @@ func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
     if p.Color {
         str = colors[level](str)
     }
-    log.Println(str)
+    // log.Println(str)
+    fmt.Println(str)
 }
 
 func (p *Logger) format(f interface{}, v ...interface{}) string {
