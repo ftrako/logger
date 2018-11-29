@@ -52,6 +52,7 @@ func (p *Logger) Error(f interface{}, v ...interface{}) {
 
 func (p *Logger) Panic(f interface{}, v ...interface{}) {
     p.write(LevelFatal, f, v...)
+    panic(p.format(f, v...))
 }
 
 func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
