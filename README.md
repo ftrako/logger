@@ -17,7 +17,11 @@
 
 * 关闭字体颜色示例：
 
-`logger.GetDefaultLogger().Color = false // 关掉字体颜色`
+`logger.GetDefaultLogger().Color = false`
+
+* 关闭函数名：
+
+`logger.GetDefaultLogger().Func = false`
 
 * 设置日志级别：
 

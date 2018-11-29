@@ -14,6 +14,7 @@ import (
 type Logger struct {
     Color     bool `json:"color"`      // 是否开启字体颜色
     Prefix    bool `json:"prefix"`     // 是否开启前缀，比如[INFO]
+    Func      bool `json:"func"`       // 是否显示函数名
     Flag      int  `json:"flag"`       // 属性，参考log.LstdFlags
     Level     int  `json:"level"`      // 日志级别，参考Level类型
     CallDepth int  `json:"call_depth"` // 调用函数深度，特意提供可支持外部修改
@@ -24,6 +25,7 @@ func NewLogger() *Logger {
     b := new(Logger)
     b.Color = true
     b.Prefix = true
+    b.Func = true
     b.Level = LevelTrace
     b.Flag = log.Lmicroseconds | log.Lshortfile
     b.CallDepth = 3
@@ -64,7 +66,8 @@ func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
     caller := ""
     if p.Flag&(log.Lshortfile|log.Llongfile) != 0 {
         var ok bool
-        _, file, line, ok := runtime.Caller(p.CallDepth)
+        var funcName = ""
+        fnc, file, line, ok := runtime.Caller(p.CallDepth)
         if !ok {
             file = "???"
             line = 0
@@ -79,8 +82,19 @@ func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
                 }
                 file = short
             }
+            if p.Func {
+                // 去掉.之前的文件名
+                short := runtime.FuncForPC(fnc).Name()
+                for i := len(short) - 1; i > 0; i-- {
+                    if short[i] == '.' {
+                        short = short[i+1:]
+                        break
+                    }
+                }
+                funcName = " " + short + "()"
+            }
         }
-        caller = "[" + file + ":" + strconv.Itoa(line) + "] "
+        caller = "[" + file + ":" + strconv.Itoa(line) + funcName + "] "
     }
 
     t := ""
@@ -95,6 +109,7 @@ func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
     if p.Prefix {
         prefix = "[" + StrLevelMap[level] + "] "
     }
+
     str := t + prefix + caller + p.format(f, v...)
     if p.Color {
         str = colors[level](str)
