@@ -8,7 +8,7 @@ const (
     LevelWarn
     LevelInfo
     LevelDebug
-    LevelTrace
+    // LevelTrace
 )
 
 // 日志等级和描述映射关系
@@ -18,7 +18,7 @@ var LevelMap = map[string]int{
     "WARN": LevelWarn,
     "INFO": LevelInfo,
     "DEBU": LevelDebug,
-    "TRAC": LevelTrace,
+    // "TRAC": LevelTrace,
 }
 
 var StrLevelMap = map[Level]string{
@@ -27,5 +27,5 @@ var StrLevelMap = map[Level]string{
     LevelWarn:  "WARN",
     LevelInfo:  "INFO",
     LevelDebug: "DEBU",
-    LevelTrace: "TRAC",
+    // LevelTrace: "TRAC",
 }

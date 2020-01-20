@@ -23,41 +23,62 @@ type Logger struct {
 func NewLogger() *Logger {
     log.SetFlags(0) // 不带任何属性，不用原系统属性
     b := new(Logger)
-    b.Color = true
+    b.Color = false
     b.Prefix = true
     b.Func = true
-    b.Level = LevelTrace
+    b.Level = LevelDebug
     b.Flag = log.Lmicroseconds | log.Lshortfile
     b.CallDepth = 3
     return b
 }
 
-func (p *Logger) Trace(f interface{}, v ...interface{}) {
-    p.write(LevelTrace, f, v...)
-}
+// func (p *Logger) Trace(f interface{}, v ...interface{}) {
+//     p.write(LevelTrace, f, v...)
+// }
 
 func (p *Logger) Debug(f interface{}, v ...interface{}) {
-    p.write(LevelDebug, f, v...)
+    p.write(LevelDebug, p.CallDepth, f, v...)
+}
+
+func (p *Logger) DebugDepth(depth int, f interface{}, v ...interface{}) {
+    p.write(LevelDebug, depth, f, v...)
 }
 
 func (p *Logger) Info(f interface{}, v ...interface{}) {
-    p.write(LevelInfo, f, v...)
+    p.write(LevelInfo, p.CallDepth, f, v...)
+}
+
+func (p *Logger) InfoDepth(depth int, f interface{}, v ...interface{}) {
+    p.write(LevelInfo, depth, f, v...)
 }
 
 func (p *Logger) Warn(f interface{}, v ...interface{}) {
-    p.write(LevelWarn, f, v...)
+    p.write(LevelWarn, p.CallDepth, f, v...)
+}
+
+func (p *Logger) WarnDepth(depth int, f interface{}, v ...interface{}) {
+    p.write(LevelWarn, depth, f, v...)
 }
 
 func (p *Logger) Error(f interface{}, v ...interface{}) {
-    p.write(LevelError, f, v...)
+    p.write(LevelError, p.CallDepth, f, v...)
+}
+
+func (p *Logger) ErrorDepth(depth int, f interface{}, v ...interface{}) {
+    p.write(LevelError, depth, f, v...)
 }
 
 func (p *Logger) Panic(f interface{}, v ...interface{}) {
-    p.write(LevelFatal, f, v...)
+    p.write(LevelFatal, p.CallDepth, f, v...)
     panic(p.format(f, v...))
 }
 
-func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
+func (p *Logger) PanicDepth(depth int, f interface{}, v ...interface{}) {
+    p.write(LevelFatal, depth, f, v...)
+    panic(p.format(f, v...))
+}
+
+func (p *Logger) write(level Level, depth int, f interface{}, v ...interface{}) {
     if int(level) > p.Level { // 级别限制
         return
     }
@@ -67,7 +88,7 @@ func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
     if p.Flag&(log.Lshortfile|log.Llongfile) != 0 {
         var ok bool
         var funcName = ""
-        fnc, file, line, ok := runtime.Caller(p.CallDepth)
+        fnc, file, line, ok := runtime.Caller(depth)
         if !ok {
             file = "???"
             line = 0
@@ -91,7 +112,7 @@ func (p *Logger) write(level Level, f interface{}, v ...interface{}) {
                         break
                     }
                 }
-                funcName = " " + short + "()"
+                funcName = " " + short // + "()"
             }
         }
         caller = "[" + file + ":" + strconv.Itoa(line) + funcName + "] "

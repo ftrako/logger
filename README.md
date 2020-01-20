@@ -14,12 +14,12 @@
 
 * 关闭字体颜色示例：
 
-`logger.GetDefaultLogger().Color = false`
+`logger.EnableColor(false)`
 
 * 关闭函数名：
 
-`logger.GetDefaultLogger().Func = false`
+`logger.EnableFuncName(false)`
 
 * 设置日志级别：
 
-`logger.GetDefaultLogger().Level = logger.LevelTrace`
+`logger.SetLevel(logger.LevelInfo)`
