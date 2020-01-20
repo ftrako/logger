@@ -6,7 +6,7 @@ var defaultLogger *Logger
 //     defaultLogger.Trace(f, v...)
 // }
 
-// ²Î¿¼log.LstdFlags
+// å‚è€ƒlog.LstdFlags
 func SetFlag(flag int) {
     defaultLogger.Flag = flag
 }
@@ -31,7 +31,7 @@ func Debug(f interface{}, v ...interface{}) {
     defaultLogger.Debug(f, v...)
 }
 
-// depthÓ¦ÖÁÉÙ3¼°ÒÔÉÏ
+// depthåº”è‡³å°‘3åŠä»¥ä¸Š
 func DebugDepth(depth int, f interface{}, v ...interface{}) {
     defaultLogger.DebugDepth(depth, f, v...)
 }
