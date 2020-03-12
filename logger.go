@@ -79,7 +79,7 @@ func (p *Logger) PanicDepth(depth int, f interface{}, v ...interface{}) {
 }
 
 func (p *Logger) write(level Level, depth int, f interface{}, v ...interface{}) {
-    if int(level) > p.Level { // 级别限制
+    if int(level) < p.Level { // 级别限制
         return
     }
     now := time.Now()

@@ -3,12 +3,12 @@ package logger
 type Level int
 
 const (
-    LevelFatal = iota
-    LevelError
-    LevelWarn
-    LevelInfo
-    LevelDebug
     // LevelTrace
+    LevelDebug =iota
+    LevelInfo
+    LevelWarn
+    LevelError
+    LevelFatal
 )
 
 // 日志等级和描述映射关系

@@ -13,7 +13,12 @@ func BenchmarkTrace(b *testing.B) {
 }
 
 func TestInfo(t *testing.T) {
-    Info("abc")
+    EnableColor(true)
+    Debug("abc_debug")
+    Info("abc_info")
+    Warn("abc_warn")
+    Error("abc_err")
+    Panic("abc_painc")
 }
 
 func TestInfoDepth(t *testing.T) {

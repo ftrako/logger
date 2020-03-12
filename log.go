@@ -23,6 +23,8 @@ func EnableFuncName(enable bool) {
     defaultLogger.Func = enable
 }
 
+// 设置日志级别
+// level值参考 LevelDebug
 func SetLevel(level int) {
     defaultLogger.Level = level
 }
