@@ -3,8 +3,8 @@ package logger
 type Level int
 
 const (
-    // LevelTrace
-    LevelDebug =iota
+    LevelTrace = iota
+    LevelDebug
     LevelInfo
     LevelWarn
     LevelError
@@ -18,7 +18,7 @@ var LevelMap = map[string]int{
     "WARN": LevelWarn,
     "INFO": LevelInfo,
     "DEBU": LevelDebug,
-    // "TRAC": LevelTrace,
+    "TRAC": LevelTrace,
 }
 
 var StrLevelMap = map[Level]string{
@@ -27,5 +27,5 @@ var StrLevelMap = map[Level]string{
     LevelWarn:  "WARN",
     LevelInfo:  "INFO",
     LevelDebug: "DEBU",
-    // LevelTrace: "TRAC",
+    LevelTrace: "TRAC",
 }

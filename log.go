@@ -2,10 +2,6 @@ package logger
 
 var defaultLogger *Logger
 
-// func Trace(f interface{}, v ...interface{}) {
-//     defaultLogger.Trace(f, v...)
-// }
-
 // 参考log.LstdFlags
 func SetFlag(flag int) {
     defaultLogger.Flag = flag
@@ -29,45 +25,54 @@ func SetLevel(level int) {
     defaultLogger.Level = level
 }
 
-func Debug(f interface{}, v ...interface{}) {
-    defaultLogger.Debug(f, v...)
+func Trace(f interface{}, v ...interface{}) {
+    TraceDepth(1,f,v...)
 }
 
-// depth应至少3及以上
+// depth层级数
+func TraceDepth(depth int, f interface{}, v ...interface{}) {
+    defaultLogger.TraceDepth(depth+3, f, v...)
+}
+
+func Debug(f interface{}, v ...interface{}) {
+    DebugDepth(1,f,v...)
+}
+
+// depth层级数
 func DebugDepth(depth int, f interface{}, v ...interface{}) {
-    defaultLogger.DebugDepth(depth, f, v...)
+    defaultLogger.DebugDepth(depth+3, f, v...)
 }
 
 func Info(f interface{}, v ...interface{}) {
-    defaultLogger.Info(f, v...)
+    InfoDepth(1,f, v...)
 }
 
 func InfoDepth(depth int, f interface{}, v ...interface{}) {
-    defaultLogger.InfoDepth(depth, f, v...)
+    defaultLogger.InfoDepth(depth+3, f, v...)
 }
 
 func Warn(f interface{}, v ...interface{}) {
-    defaultLogger.Warn(f, v...)
+    WarnDepth(1,f, v...)
 }
 
 func WarnDepth(depth int, f interface{}, v ...interface{}) {
-    defaultLogger.WarnDepth(depth, f, v...)
+    defaultLogger.WarnDepth(depth+3, f, v...)
 }
 
 func Error(f interface{}, v ...interface{}) {
-    defaultLogger.Error(f, v...)
+    ErrorDepth(1,f, v...)
 }
 
 func ErrorDepth(depth int, f interface{}, v ...interface{}) {
-    defaultLogger.ErrorDepth(depth, f, v...)
+    defaultLogger.ErrorDepth(depth+3, f, v...)
 }
 
 func Panic(f interface{}, v ...interface{}) {
-    defaultLogger.Panic(f, v...)
+    PanicDepth(1,f, v...)
 }
 
 func PanicDepth(depth int, f interface{}, v ...interface{}) {
-    defaultLogger.PanicDepth(depth, f, v...)
+    defaultLogger.PanicDepth(depth+3, f, v...)
 }
 
 // Deprecated

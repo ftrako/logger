@@ -26,15 +26,20 @@ func NewLogger() *Logger {
     b.Color = false
     b.Prefix = true
     b.Func = true
-    b.Level = LevelDebug
+    b.Level = LevelTrace
     b.Flag = log.Lmicroseconds | log.Lshortfile
     b.CallDepth = 3
     return b
 }
 
-// func (p *Logger) Trace(f interface{}, v ...interface{}) {
-//     p.write(LevelTrace, f, v...)
-// }
+func (p *Logger) Trace(f interface{}, v ...interface{}) {
+    p.write(LevelTrace, p.CallDepth, f, v...)
+}
+
+func (p *Logger) TraceDepth(depth int, f interface{}, v ...interface{}) {
+    p.write(LevelTrace, depth, f, v...)
+}
+
 
 func (p *Logger) Debug(f interface{}, v ...interface{}) {
     p.write(LevelDebug, p.CallDepth, f, v...)
@@ -112,7 +117,7 @@ func (p *Logger) write(level Level, depth int, f interface{}, v ...interface{}) 
                         break
                     }
                 }
-                funcName = " " + short // + "()"
+                funcName = " " + short
             }
         }
         caller = "[" + file + ":" + strconv.Itoa(line) + funcName + "] "
@@ -135,7 +140,6 @@ func (p *Logger) write(level Level, depth int, f interface{}, v ...interface{}) 
     if p.Color {
         str = colors[level](str)
     }
-    // log.Println(str)
     fmt.Println(str)
 }
 
