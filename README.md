@@ -1,5 +1,7 @@
 # 日志打印
 
+deprecated, pls use tool: https://github.com/ftrako/glog.git
+
 基于fmt.Println()上的二次开发，显示内容更丰富。
 
 ## 使用说明
